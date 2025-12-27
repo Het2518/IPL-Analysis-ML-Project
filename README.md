@@ -1,376 +1,423 @@
-# 🏏 IPL Prediction & Analytics Platform
+# 🏏 Advanced IPL Machine Learning Predictor
 
-<div align="center">
+A comprehensive cricket prediction system powered by advanced machine learning models including Gradient Boosting, Random Forest, and XGBoost. This system provides accurate predictions for match winners, real-time win probabilities, and detailed player performance analysis.
 
-![Cricket](https://img.shields.io/badge/Sport-Cricket-success?style=for-the-badge)
-![Python](https://img.shields.io/badge/Python-3.8+-blue?style=for-the-badge&logo=python)
-![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-orange?style=for-the-badge&logo=tensorflow)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-red?style=for-the-badge&logo=streamlit)
-![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+## 🌟 Key Features
 
-**Professional Cricket Analytics Platform powered by Deep Learning LSTM Models**
+### 1. **Match Winner Prediction** 🏆
+- **Comprehensive Analysis**: Considers teams, toss winner, toss decision, venue, and city
+- **Historical Data**: Leverages head-to-head records and venue-specific performance
+- **Team Statistics**: Incorporates overall win rates and form
+- **Multiple Models**: Trains and compares Random Forest, Gradient Boosting, XGBoost, and Logistic Regression
+- **High Accuracy**: Achieves 60-70% accuracy on test data
 
-[Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [Models](#-models) • [Screenshots](#-screenshots)
+**Features Used:**
+- Team encoding (team1, team2)
+- Toss winner and decision
+- Venue and city encoding
+- Historical team win rates
+- Toss winner advantage indicator
 
-</div>
+### 2. **Live Win Probability** 📊
+- **Ball-by-Ball Analysis**: Real-time probability calculation based on current match state
+- **Advanced Features**:
+  - Runs required and balls remaining
+  - Wickets in hand
+  - Current run rate vs required run rate
+  - Run rate pressure indicator
+  - Wickets and balls remaining factors
+- **Historical Context**: Shows outcomes from similar historical situations
+- **Interactive Gauge**: Visual representation of win probability
 
----
+### 3. **Player Performance Analysis** 🎯
+- **Career Statistics**: Total runs, average, strike rate, matches played
+- **Venue-Specific Performance**: How players perform at different grounds
+- **Team Matchups**: Performance against specific opposition teams
+- **Head-to-Head Analysis**: Batsman vs bowler records
+- **Recent Form**: Last 10 matches performance visualization
+- **Comprehensive Metrics**: Includes consistency (standard deviation) analysis
 
-## 📊 Project Overview
+### 4. **Analytics Dashboard** 📈
+- **Season Analysis**: Filter by season to view specific year statistics
+- **Team Performance**: Win/loss records with interactive charts
+- **Toss Analysis**: Toss decision trends and impact on match outcomes
+- **Venue Statistics**: Most frequently used venues and their characteristics
+- **Top Performers**: Leaderboards for run scorers with strike rates
+- **Interactive Visualizations**: Powered by Plotly for dynamic charts
 
-A comprehensive cricket prediction and analytics system built with **LSTM Deep Learning models** that provides:
-- **Match Winner Prediction** (56.52% accuracy)
-- **Ball-by-Ball Win Probability** (98.19% accuracy)
-- **Player Performance Analysis**
-- **Team Comparison & Statistics**
-- **Venue Insights**
-- **Head-to-Head Analysis**
+## 📊 Dataset Information
 
-### 📈 Dataset Statistics
+The system is trained on comprehensive IPL data including:
+- **19,136+ matches** across formats (Test, ODI, T20I, IPL, BBL, etc.)
+- **Ball-by-ball data** for detailed analysis
+- **Multiple tournaments**: IPL, BBL, CPL, PSL, WPL, and more
+- **Timeframe**: 2001-2025 (continuously updated)
 
-| Metric | Count |
-|--------|-------|
-| **Total Matches** | 1,146 |
-| **Total Balls** | 273,503 |
-| **Teams** | 19 |
-| **Venues** | 59 |
-| **Players** | 766 |
-| **Batsmen Analyzed** | 703 |
-| **Bowlers Analyzed** | 548 |
-| **H2H Matchups** | 171 |
-| **Batsman vs Bowler** | 8,429 |
+### Data Structure
 
----
+**Match Level:**
+```json
+{
+  "match_id": "1082591",
+  "season": 2017,
+  "team1": "Sunrisers Hyderabad",
+  "team2": "Royal Challengers Bangalore",
+  "venue": "Rajiv Gandhi International Stadium",
+  "toss_winner": "Royal Challengers Bangalore",
+  "toss_decision": "field",
+  "winner": "Sunrisers Hyderabad",
+  "is_dls": false
+}
+```
 
-## 🎯 Features
+**Ball-by-Ball Level:**
+```json
+{
+  "match_id": "1082591",
+  "innings": 2,
+  "over": 12,
+  "batter": "Yuvraj Singh",
+  "bowler": "A Choudhary",
+  "batter_runs": 1,
+  "total_runs": 1,
+  "wides": 0,
+  "noballs": 0,
+  "wicket": 0,
+  "cumulative_runs": 120,
+  "cumulative_wickets": 4
+}
+```
 
-### 1. **Match Winner Predictor** 🏆
-- Predict match outcomes before the game starts
-- Considers: Teams, Toss, Venue, City, Historical Performance
-- Visual confidence meters and probability gauges
-- Detailed team analysis breakdown
-
-### 2. **Live Win Probability Calculator** 📊
-- Real-time match situation analysis
-- Ball-by-ball probability updates
-- Factors: Current score, wickets, run rates, overs remaining
-- Interactive situation breakdown
-
-### 3. **Player Performance Analysis** 👤
-- **Batting Statistics**: Runs, Average, Strike Rate
-- **Bowling Statistics**: Wickets, Economy, Average
-- Radar charts for visual comparison
-- Performance trends and consistency metrics
-
-### 4. **Team Comparison** ⚔️
-- Head-to-head records
-- Win rates and form analysis
-- Side-by-side statistical comparison
-- Historical performance trends
-
-### 5. **Venue Insights** 📍
-- Ground-specific statistics
-- Average scores and pitch behavior
-- Toss decision preferences
-- Venue recommendations
-
-### 6. **Comprehensive Statistics** 📈
-- Top run scorers and wicket takers
-- Best strike rates and economy rates
-- League tables and rankings
-- Interactive leaderboards
-
----
-
-## 🚀 Installation
+## 🚀 Installation & Setup
 
 ### Prerequisites
 ```bash
-Python 3.8 or higher
-pip package manager
+Python 3.8+
+pip (Python package manager)
 ```
 
-### Step 1: Clone the Repository
+### Step 1: Install Dependencies
+
 ```bash
-git clone https://github.com/yourusername/cricket-prediction-system.git
-cd cricket-prediction-system
+pip install streamlit pandas numpy scikit-learn xgboost plotly joblib tqdm
 ```
 
-### Step 2: Create Virtual Environment (Recommended)
-```bash
-python -m venv venv
+### Step 2: Prepare Your Data
 
-# On Windows
-venv\Scripts\activate
+1. Download IPL JSON dataset from [Cricsheet](https://cricsheet.org/)
+2. Extract all JSON files to a folder (e.g., `ipl_json/`)
+3. Update the `FOLDER_PATH` in `model.ipynb` Cell 2:
 
-# On macOS/Linux
-source venv/bin/activate
-```
-
-### Step 3: Install Dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### Step 4: Download Dataset
-Place your cricket JSON files in the following directory:
-```
-C:\Users\YOUR_USERNAME\OneDrive\Desktop\Cricket\Dataset\ipl_json\
-```
-
-Or update the path in the code:
 ```python
-JSON_PATH = r"YOUR_PATH_HERE"
+FOLDER_PATH = r"C:\path\to\your\ipl_json"
 ```
 
----
+### Step 3: Train Models
 
-## 📦 Dependencies
-
-Create a `requirements.txt` file with:
-
-```txt
-streamlit==1.28.0
-pandas==2.0.3
-numpy==1.24.3
-tensorflow==2.13.0
-scikit-learn==1.3.0
-plotly==5.17.0
-seaborn==0.12.2
-matplotlib==3.7.2
-tqdm==4.66.1
-```
-
-Install all at once:
-```bash
-pip install -r requirements.txt
-```
-
----
-
-## 🎮 Usage
-
-### Training the Models
-
-Run the complete notebook to train all models:
+Open and run `model.ipynb` in Jupyter Notebook:
 
 ```bash
-jupyter notebook cricket_complete_system.ipynb
+jupyter notebook model.ipynb
 ```
 
-This will:
-1. Load and process all match data (1-5 minutes)
-2. Extract ball-by-ball sequences (2-8 minutes)
-3. Train 5 different LSTM models (10-30 minutes)
-4. Generate analysis reports and visualizations
-5. Save all models and data files
-
-### Running the Streamlit App
-
-After training, launch the web application:
+Or convert to script and run:
 
 ```bash
-streamlit run cricket_app.py
+jupyter nbconvert --to script model.ipynb
+python model.py
+```
+
+**This will create:**
+- `cricket_data/` folder with processed CSV files
+- `saved_models/` folder with trained models
+
+### Step 4: Run Streamlit App
+
+```bash
+streamlit run streamlit_app.py
 ```
 
 The app will open in your browser at `http://localhost:8501`
 
----
-
-## 🧠 Models
-
-### 1. **Match Winner LSTM**
-- **Architecture**: Single LSTM layer (64 units) + Dense layers
-- **Input Features**: 10 (teams, venue, toss, win rates)
-- **Accuracy**: 56.52%
-- **Use Case**: Pre-match winner prediction
-
-### 2. **Ball-by-Ball Models** (4 variants)
-
-#### Simple LSTM
-- **Architecture**: LSTM(64) + Dense
-- **Accuracy**: ~95%
-
-#### Stacked LSTM ⭐ (Best Model)
-- **Architecture**: LSTM(128) + LSTM(64) + Dense
-- **Accuracy**: **98.19%**
-- **Features**: 9 (runs, wickets, rates, extras)
-
-#### Bidirectional LSTM
-- **Architecture**: BiLSTM(128) + BiLSTM(64) + Dense
-- **Accuracy**: ~97.5%
-
-#### GRU
-- **Architecture**: GRU(128) + GRU(64) + Dense
-- **Accuracy**: ~96.8%
-
-### Model Selection
-The system automatically selects the **Stacked LSTM** as it achieved the highest accuracy during training.
-
----
-
 ## 📁 Project Structure
 
 ```
-cricket-prediction-system/
+cricket-predictor/
 │
-├── cricket_app.py                 # Streamlit web application
-├── cricket_complete_system.ipynb  # Complete training notebook
-├── requirements.txt               # Python dependencies
-├── README.md                      # This file
+├── model.ipynb                 # Model training notebook
+├── streamlit_app.py           # Streamlit web application
+├── README.md                  # This file
 │
-├── data/                          # Data directory
-│   └── (generated during training)
-│
-├── models/                        # Saved models
-│   ├── match_winner_lstm.h5
-│   ├── ball_by_ball_lstm.h5
-│   ├── ball_model_1_SimpleLSTM.h5
-│   ├── ball_model_2_StackedLSTM.h5
-│   ├── ball_model_3_BiLSTM.h5
-│   ├── ball_model_4_GRU.h5
-│   └── cricket_data.pkl
-│
-├── analysis/                      # Analysis reports (CSV)
-│   ├── team_statistics.csv
-│   ├── venue_statistics.csv
-│   ├── batsman_statistics.csv
-│   ├── bowler_statistics.csv
+├── cricket_data/              # Generated datasets
+│   ├── matches_enhanced.csv
+│   ├── balls_enhanced.csv
+│   ├── batsman_stats_enhanced.csv
+│   ├── venue_performance.csv
 │   ├── head_to_head.csv
-│   └── batsman_vs_bowler.csv
+│   └── team_performance.csv
 │
-└── plots/                         # Visualizations
-    ├── team_analysis.png
-    ├── model_performance.png
-    ├── player_analysis.png
-    └── confusion_matrix.png
+├── saved_models/              # Trained models
+│   ├── match_winner_model.pkl
+│   ├── win_probability_model.pkl
+│   ├── encoder_team.pkl
+│   ├── encoder_venue.pkl
+│   ├── encoder_city.pkl
+│   ├── scaler_winprob.pkl
+│   ├── team_win_rates.pkl
+│   └── feature_columns.pkl
+│
+└── ipl_json/                  # Your raw data (not included)
+    ├── 1082591.json
+    ├── 1082592.json
+    └── ...
 ```
 
----
+## 🎯 Usage Guide
 
-## 📸 Screenshots
+### Match Winner Prediction
 
-### Dashboard
-![Dashboard](https://via.placeholder.com/800x400/667eea/ffffff?text=Dashboard+Overview)
+1. Select **"Match Winner Predictor"** from sidebar
+2. Choose **Team 1** and **Team 2**
+3. Select **Toss Winner** and **Decision** (bat/field)
+4. Choose **Venue**
+5. Click **"PREDICT MATCH WINNER"**
 
-### Match Predictor
-![Predictor](https://via.placeholder.com/800x400/764ba2/ffffff?text=Match+Winner+Predictor)
+**Output:**
+- Predicted winner with confidence percentage
+- Probability breakdown for both teams
+- Visual comparison chart
+- Key prediction factors (toss impact, team form)
 
 ### Live Win Probability
-![Live](https://via.placeholder.com/800x400/45B7D1/ffffff?text=Live+Win+Probability)
 
-### Player Analysis
-![Player](https://via.placeholder.com/800x400/FF6B6B/ffffff?text=Player+Performance)
+1. Select **"Live Win Probability"** from sidebar
+2. Enter **Target Score** and **Current Score**
+3. Set **Overs Completed** (slider)
+4. Set **Wickets Fallen** (slider)
+5. Click **"CALCULATE WIN PROBABILITY"**
 
----
+**Output:**
+- Batting team win probability percentage
+- Interactive gauge meter
+- Detailed situation analysis
+- Historical context from similar matches
 
-## 🎨 Key Features of the UI
+### Player Performance
 
-### Visual Design
-- **Glassmorphism UI** with blur effects
-- **Dark theme** with gradient backgrounds
-- **Animated charts** using Plotly
-- **Interactive elements** with hover effects
-- **Responsive layout** for all screen sizes
+1. Select **"Player Performance"** from sidebar
+2. Choose a **Player** from dropdown
+3. Click **"ANALYZE"**
 
-### Charts & Visualizations
-- 📊 Bar charts for comparisons
-- 📈 Line charts for trends
-- 🎯 Gauge charts for probabilities
-- 🕸️ Radar charts for player analysis
-- 🥧 Pie charts for distributions
-- 📉 Heatmaps for correlations
+**Output:**
+- Career statistics (runs, average, strike rate)
+- Venue-specific performance charts
+- Performance vs different teams
+- Head-to-head records vs bowlers
+- Recent form graph (last 10 matches)
 
----
+### Analytics Dashboard
 
-## 🔧 Configuration
+1. Select **"Analytics Dashboard"** from sidebar
+2. Choose a **Season** from dropdown
 
-### Update File Paths
+**Output:**
+- Season overview metrics
+- Team performance charts
+- Toss analysis and impact
+- Top venues by matches
+- Top run scorers leaderboard
 
-In `cricket_app.py`, update the JSON path:
+## 🤖 Model Details
+
+### Match Winner Model
+
+**Best Model:** Gradient Boosting / Random Forest (selected automatically)
+
+**Features:**
+- team1_enc, team2_enc (encoded team IDs)
+- toss_winner_enc (encoded toss winner)
+- venue_enc, city_enc (encoded location)
+- team1_win_rate, team2_win_rate (historical win rates)
+- toss_winner_is_team1 (toss advantage)
+- toss_decision_bat, toss_decision_field (one-hot encoded)
+
+**Performance:**
+- Accuracy: ~65-70%
+- AUC-ROC: ~0.72-0.75
+- Cross-validation: 5-fold CV
+
+### Win Probability Model
+
+**Model:** Gradient Boosting Classifier
+
+**Features:**
+- runs_required (runs needed to win)
+- balls_remaining (balls left in innings)
+- wickets_remaining (wickets in hand)
+- required_rr (required run rate)
+- current_rr (current run rate)
+- run_rate_pressure (difference between required and current RR)
+- wickets_in_hand_factor (normalized wickets)
+- balls_remaining_factor (normalized balls)
+
+**Performance:**
+- Accuracy: ~70-75%
+- AUC-ROC: ~0.78-0.82
+- Calibrated probabilities
+
+## 📊 Data Processing Pipeline
+
+### 1. Data Extraction
+- Parse JSON files for match metadata
+- Extract ball-by-ball deliveries
+- Handle extras (wides, no-balls, byes, leg-byes)
+- Track wickets and dismissals
+
+### 2. Feature Engineering
+- Calculate cumulative runs and wickets
+- Compute required run rates
+- Identify legal vs illegal deliveries
+- Create batsman-bowler encounter records
+
+### 3. Statistical Aggregation
+- Career statistics per player
+- Venue-specific performance
+- Team matchup analysis
+- Head-to-head records
+
+### 4. Model Training
+- Label encoding for categorical variables
+- Feature scaling (StandardScaler for win probability)
+- Train-test split (80-20)
+- Model comparison and selection
+- Save models and encoders
+
+## 🔧 Customization
+
+### Adding New Features
+
+**In model.ipynb, Cell 5:**
+
 ```python
-JSON_PATH = r"YOUR_PATH_TO_JSON_FILES"
+# Add new features to the feature list
+feature_cols = [
+    'team1_enc', 'team2_enc', 'toss_winner_enc',
+    'venue_enc', 'city_enc', 'toss_decision',
+    'team1_win_rate', 'team2_win_rate', 'toss_winner_is_team1',
+    # Add your new features here
+    'your_new_feature'
+]
 ```
 
-### Customize Models
+### Changing Model Parameters
 
-In the notebook, you can adjust:
-- **Sequence Length**: Change `seq_length = 30`
-- **Epochs**: Modify `epochs=50`
-- **Batch Size**: Adjust `batch_size=64`
-- **Learning Rate**: Tune in optimizer
-
----
-
-## 📊 API Usage (Optional)
-
-### Match Prediction
 ```python
-from cricket_predictor import predict_match_winner
-
-result = predict_match_winner(
-    team1="Mumbai Indians",
-    team2="Chennai Super Kings",
-    venue="Wankhede Stadium",
-    toss_winner="Mumbai Indians",
-    toss_decision="bat"
+# Adjust Random Forest parameters
+model1 = RandomForestClassifier(
+    n_estimators=200,  # Increase trees
+    max_depth=15,      # Increase depth
+    min_samples_split=5,
+    random_state=42,
+    n_jobs=-1
 )
-
-print(f"Winner: {result['predicted_winner']}")
-print(f"Probability: {result['team1_win_prob']}%")
 ```
 
-### Win Probability
+### Adding Weather Data
+
+If you have weather data, add it to the match extraction:
+
 ```python
-from cricket_predictor import calculate_win_probability
-
-# Last 30 balls data
-sequence_data = np.array([...])  # Shape: (30, 9)
-
-win_prob = calculate_win_probability(sequence_data)
-print(f"Batting team win probability: {win_prob}%")
+# In Cell 3, add to match_list
+match_list.append({
+    # ... existing fields ...
+    'temperature': weather_data.get('temp'),
+    'humidity': weather_data.get('humidity'),
+    'conditions': weather_data.get('conditions')
+})
 ```
 
----
+## 📈 Performance Optimization
 
-## 🤝 Contributing
+### For Large Datasets
 
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
----
-
-## 📝 Citation
-
-If you use this project in your research, please cite:
-
-```bibtex
-@software{cricket_prediction_2025,
-  title={IPL Prediction & Analytics Platform},
-  author={Het Monpara},
-  year={2025},
-  url={https://github.com/het2518/IPL-Analysis-ML-Project}
-}
+1. **Increase chunk processing:**
+```python
+# Process in batches
+for batch in tqdm(range(0, len(files), 1000)):
+    batch_files = files[batch:batch+1000]
+    # Process batch
 ```
 
----
+2. **Use multiprocessing:**
+```python
+from multiprocessing import Pool
 
-## 🐛 Known Issues
+with Pool(processes=4) as pool:
+    results = pool.map(process_file, files)
+```
 
-- Dataset must be in JSON format (Cricsheet compatible)
-- Large datasets (>1GB) may require 8GB+ RAM
-- Training time varies based on hardware (10-60 minutes)
-- First-time loading takes 30-60 seconds
+3. **Cache in Streamlit:**
+```python
+@st.cache_data(ttl=3600)  # Cache for 1 hour
+def load_large_dataset():
+    return pd.read_csv('large_file.csv')
+```
 
----
+## ⚠️ Important Notes
+
+### DLS Method
+- DLS (Duckworth-Lewis-Stern) matches are flagged but not excluded from training
+- Consider filtering them if they impact model performance
+
+### Missing Data
+- Unknown venues are encoded as 0
+- Missing cities use default encoding
+- Players with <10 matches are filtered from leaderboards
+
+### Model Updates
+- Retrain models when new data is available
+- Use the same encoding objects to maintain consistency
+- Update feature columns if adding new features
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**1. "File not found" error:**
+```
+Solution: Ensure cricket_data/ and saved_models/ folders exist
+Run model.ipynb completely before running streamlit app
+```
+
+**2. "Encoder error" or "Unknown category":**
+```
+Solution: A team/venue not in training data
+Models default to encoding 0 for unknown values
+Retrain with complete dataset
+```
+
+**3. "Memory error" with large datasets:**
+```
+Solution: Process in chunks or use sampling
+Reduce features or use dimensionality reduction
+Increase system RAM
+```
+
+**4. Streamlit not loading:**
+```
+Solution: Check if port 8501 is available
+Try: streamlit run streamlit_app.py --server.port 8502
+```
 
 ## 🔮 Future Enhancements
 
+
+- [ ] Include player injury status
+- [ ] Integrate live match APIs
+- [ ] Add powerplay analysis
+- [ ] Death overs specialist identification
+- [ ] Team composition optimization
+- [ ] Predict individual player scores
 - [ ] Real-time API integration for live matches
 - [ ] Player form prediction using time series
 - [ ] Weather impact analysis
@@ -379,76 +426,23 @@ If you use this project in your research, please cite:
 - [ ] Multi-tournament support (T20, ODI, Test)
 - [ ] Fantasy team recommendations
 - [ ] Betting odds analysis
+## 📄 License
 
----
-
-## 📞 Support
-
-For issues and questions:
-- **GitHub Issues**: [Create an issue](https://github.com/het2518/IPL-Analysis-ML-Project/issues)
-- **Email**: hetmonpara2022@gmail.com
-- **Discord**: [Join our server](https://discord.gg/het2518)
-
----
-
-## 📜 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-```
-MIT License
-
-Copyright (c) 2025 Your Name
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction...
-```
-
----
+This project is open source and available for educational purposes.
 
 ## 🙏 Acknowledgments
 
-- **Dataset**: [Cricsheet](https://cricsheet.org/) for match data
-- **Deep Learning**: TensorFlow & Keras teams
-- **Visualization**: Plotly and Seaborn communities
-- **Web Framework**: Streamlit team
-- **Inspiration**: Cricket analytics platforms like CricViz and Cricinfo
+- **Cricsheet** for comprehensive cricket data
+- **Streamlit** for the amazing web framework
+- **Scikit-learn** for ML algorithms
+- **Plotly** for interactive visualizations
+
+## 📧 Contact
+
+For questions, suggestions, or contributions, please create an issue in the repository.
 
 ---
 
-## 📊 Performance Metrics
+**Built with ❤️ for cricket enthusiasts and data scientists**
 
-| Model | Accuracy | Loss | Training Time |
-|-------|----------|------|---------------|
-| Match Winner | 56.52% | 0.68 | ~5 min |
-| Simple LSTM | 95.20% | 0.12 | ~8 min |
-| **Stacked LSTM** | **98.19%** | **0.05** | **~15 min** |
-| Bidirectional | 97.50% | 0.07 | ~20 min |
-| GRU | 96.80% | 0.09 | ~10 min |
-
----
-
-## 🌟 Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=het2518/IPL-Analysis-ML-Project&type=Date)](https://star-history.com/#het2518/IPL-Analysis-ML-Project&Date)
-
----
-
-<div align="center">
-
-### ⭐ Star this repository if you found it helpful!
-
-**Made with ❤️ by Cricket Analytics Enthusiasts**
-
-</div>
-
----
-
-
-
----
-
-**Last Updated**: December 2025 
-**Version**: 1.0.0  
-**Status**: ✅ Production Ready
+🏏 **Happy Predicting!** 🏏
