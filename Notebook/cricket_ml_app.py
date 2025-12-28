@@ -243,38 +243,42 @@ def load_models_and_data():
     device = torch.device('cpu')
     
     try:
-        # Try to load actual models if they exist
-        match_checkpoint = torch.load('models/match_winner_model.pth', 
-                                      map_location=device, 
-                                      weights_only=False)
-        match_model = MatchWinnerModel(input_dim=10)
-        match_model.load_state_dict(match_checkpoint['model_state'])
-        match_model.eval()
-        match_scaler = match_checkpoint['scaler']
-        
-        ball_checkpoint = torch.load('models/ball_by_ball_model.pth', 
-                                     map_location=device,
-                                     weights_only=False)
-        ball_model = BallByBallLSTM(input_dim=9)
-        ball_model.load_state_dict(ball_checkpoint['model_state'])
-        ball_model.eval()
-        ball_scaler = ball_checkpoint['scaler']
-        
+    # Try to load actual models from checkpoints folder
+        match_checkpoint = torch.load('models/checkpoints/match_winner_best.pth',
+                                  map_location=device,
+                                  weights_only=False)
+        ball_checkpoint = torch.load('models/checkpoints/ball_by_ball_best.pth',
+                                 map_location=device,
+                                 weights_only=False)
+    
+    # Also load metadata (this one is in models/ root)
         with open('models/cricket_metadata.pkl', 'rb') as f:
             metadata = pickle.load(f)
-        
+    
         try:
             with open('models/advanced_features.pkl', 'rb') as f:
                 advanced_data = pickle.load(f)
         except:
             advanced_data = None
-        
-        return match_model, ball_model, match_scaler, ball_scaler, metadata, advanced_data, device
-    except Exception as e:
-        # If models don't exist, create mock models
-        st.warning("Models not found. Using mock data for demonstration.")
-        return None, None, None, None, create_mock_metadata(), None, device
+    
+    # Load scalers from checkpoint (assuming you saved them)
+        match_model = MatchWinnerModel(input_dim=10)
+        match_model.load_state_dict(match_checkpoint['model_state'])
+        match_model.eval()
+        match_scaler = match_checkpoint['scaler']
 
+        ball_model = BallByBallLSTM(input_dim=9)
+        ball_model.load_state_dict(ball_checkpoint['model_state'])
+        ball_model.eval()
+        ball_scaler = ball_checkpoint['scaler']
+    
+        return match_model, ball_model, match_scaler, ball_scaler, metadata, advanced_data, device
+
+    except Exception as e:
+        st.warning("Models not found or failed to load. Using mock data for demonstration.")
+        print(f"Model loading error: {e}")  # For debugging
+        return None, None, None, None, create_mock_metadata(), None, device
+    
 def create_mock_metadata():
     """Create mock metadata for demonstration"""
     teams = ['Mumbai Indians', 'Chennai Super Kings', 'Royal Challengers Bangalore', 
