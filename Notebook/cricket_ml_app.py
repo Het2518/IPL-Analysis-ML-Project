@@ -204,48 +204,39 @@ st.markdown("""
 # LOAD DATA & MODELS
 # ═══════════════════════════════════════════════════════════
 @st.cache_resource
-@st.cache_resource
 def load_models_and_data():
+    """Load all models and data"""
     try:
-        BASE_PATH = "Notebook"
-
         # Load models
-        match_model = load_model(
-            f"{BASE_PATH}/models/match_winner_lstm.h5",
-            compile=False
-        )
-        ball_model = load_model(
-            f"{BASE_PATH}/models/ball_by_ball_lstm.h5",
-            compile=False
-        )
-
-        # Load pickle data
-        with open(f"{BASE_PATH}/models/cricket_data.pkl", "rb") as f:
+        match_model = keras.models.load_model('models/match_winner_lstm.h5')
+        ball_model = keras.models.load_model('models/ball_by_ball_lstm.h5')
+        
+        # Load data
+        with open('models/cricket_data.pkl', 'rb') as f:
             data = pickle.load(f)
-
-        # Load CSVs
-        team_stats = pd.read_csv(f"{BASE_PATH}/analysis/team_statistics.csv", index_col=0)
-        venue_stats = pd.read_csv(f"{BASE_PATH}/analysis/venue_statistics.csv", index_col=0)
-        batsman_stats = pd.read_csv(f"{BASE_PATH}/analysis/batsman_statistics.csv")
-        bowler_stats = pd.read_csv(f"{BASE_PATH}/analysis/bowler_statistics.csv")
-        h2h_stats = pd.read_csv(f"{BASE_PATH}/analysis/head_to_head.csv", index_col=0)
-
+        
+        # Load CSV files
+        team_stats = pd.read_csv('analysis/team_statistics.csv', index_col=0)
+        venue_stats = pd.read_csv('analysis/venue_statistics.csv', index_col=0)
+        batsman_stats = pd.read_csv('analysis/batsman_statistics.csv')
+        bowler_stats = pd.read_csv('analysis/bowler_statistics.csv')
+        h2h_stats = pd.read_csv('analysis/head_to_head.csv', index_col=0)
+        
         return {
-            "match_model": match_model,
-            "ball_model": ball_model,
-            "team_to_id": data["team_to_id"],
-            "id_to_team": data["id_to_team"],
-            "venue_to_id": data["venue_to_id"],
-            "player_to_id": data["player_to_id"],
-            "team_stats": team_stats,
-            "venue_stats": venue_stats,
-            "batsman_stats": batsman_stats,
-            "bowler_stats": bowler_stats,
-            "h2h_stats": h2h_stats
+            'match_model': match_model,
+            'ball_model': ball_model,
+            'team_to_id': data['team_to_id'],
+            'id_to_team': data['id_to_team'],
+            'venue_to_id': data['venue_to_id'],
+            'player_to_id': data['player_to_id'],
+            'team_stats': team_stats,
+            'venue_stats': venue_stats,
+            'batsman_stats': batsman_stats,
+            'bowler_stats': bowler_stats,
+            'h2h_stats': h2h_stats
         }
-
     except Exception as e:
-        st.error(f"❌ Error loading data: {e}")
+        st.error(f"Error loading data: {e}")
         return None
 
 # Load everything
